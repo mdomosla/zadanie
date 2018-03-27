@@ -1,0 +1,5 @@
+{
+  "SERVER_ADDRESS":"address",
+  "WEBSOCKET_ADDRESS":"address",
+  "FILE_ADDRESS":"file_address"
+}
