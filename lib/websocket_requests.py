@@ -1,7 +1,7 @@
 from websocket import create_connection
 
 
-class Connection:
+class WebsocketRequests:
 
     @staticmethod
     def ask_for_hash(address, message):

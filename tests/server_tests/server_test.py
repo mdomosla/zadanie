@@ -2,10 +2,12 @@ from tests.baseTest import *
 from lib.server_requests import Requests
 from grappa import should
 import time
+from lib.random_generator import RandomGenerator
 
 
 class ServerTest(BaseTest):
     server_requests = Requests()
+    rg = RandomGenerator()
 
     def test_01_check_server_response_for_all_users(self):
         users = self.file
@@ -21,7 +23,8 @@ class ServerTest(BaseTest):
         result['response'] | should.be.none
 
     def test_03_check_server_response_for_not_acceptable_data(self):
-        result = self.server_requests.post(self.CONFIG["SERVER_ADDRESS"], user=123)
+        user_name = self.rg.get_date()
+        result = self.server_requests.post(self.CONFIG["SERVER_ADDRESS"], user=user_name)
         result['code'] | should.not_be.equal.to(200)
         result['response'] | should.be.none
 
@@ -46,11 +49,7 @@ class ServerTest(BaseTest):
         hash_response | should.not_be.equal.to(second_hash)
 
     def test_06_check_server_response_for_unknown_user(self):
-        users = self.file
-        new_user = None
-        for user in users:
-            new_user += user
-            # adding all user names will cause user that is 100% not present on list
+        new_user = self.rg.generate_random_string(100)
         result = self.server_requests.post(self.CONFIG["SERVER_ADDRESS"], user=new_user)
         result['code'] | should.be.equal.to(200)
         result['response'] | should.be.none
