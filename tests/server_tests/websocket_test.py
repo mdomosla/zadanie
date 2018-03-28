@@ -31,3 +31,12 @@ class WebSocketTest(BaseTest):
         response | should.be.a('string')
         len(response) | should.be.higher.than(1)
         len(response) | should.be.lower.than(501)
+
+    def test_04_ask_for_hash_from_file_list(self):
+        users = self.file
+        for user in users:
+            response = self.ws_requests.ask_for_hash(address=self.CONFIG["WEBSOCKET_ADDRESS"], message=users)
+            response | should.not_be.none
+            response | should.be.a('string')
+            len(response) | should.be.higher.than(1)
+            len(response) | should.be.lower.than(501)
